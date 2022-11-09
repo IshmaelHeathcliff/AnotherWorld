@@ -97,7 +97,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: edccd3bb3ba54304b8d58ba12b5d35d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  boardPos: {x: 0, y: 0}
+  boardPos: {x: 0, y: 0, z: 0}
 --- !u!64 &8817877105863703443
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -111,4 +111,4 @@ MeshCollider:
   serializedVersion: 4
   m_Convex: 0
   m_CookingOptions: 30
-  m_Mesh: {fileID: -7158247418717641203, guid: 339b31c6e90d8bd42b71a2268c511e44, type: 3}
+  m_Mesh: {fileID: -8023080413318814639, guid: 339b31c6e90d8bd42b71a2268c511e44, type: 3}

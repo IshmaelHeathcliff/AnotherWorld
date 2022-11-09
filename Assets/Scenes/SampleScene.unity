@@ -202,7 +202,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
   m_LocalRotation: {x: 0.5, y: 0, z: 0, w: 0.8660254}
-  m_LocalPosition: {x: 60, y: 30, z: 10}
+  m_LocalPosition: {x: 0, y: 15, z: -9.8}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -431,6 +431,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Forest
+      objectReference: {fileID: 0}
+    - target: {fileID: 2363631664870067670, guid: 8ec6e20f0785e7743829ba2de46cda3d,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3136368830302017388, guid: 8ec6e20f0785e7743829ba2de46cda3d,
         type: 3}
@@ -667,6 +672,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 10
+  path: []
 --- !u!1 &1964991228
 GameObject:
   m_ObjectHideFlags: 0
