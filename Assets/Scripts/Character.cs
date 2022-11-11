@@ -30,20 +30,21 @@ public class Character: MonoBehaviour
 
     public float speed = 5f;
 
-    public float maxDistance = 8f;
+    public int maxDistance = 8;
 
     public Cell CurrentCell { get; set; }
     
 
-    public List<Cell> path;
+    public Queue<Cell> Path;
+
+    public bool isMoving;
 
     Rigidbody _rigidbody;
-    BoxCollider _collider;
+    MeshCollider _collider;
 
     Vector3 _targetPos;
     Cell _targetCell;
     Vector3 _midpoint;
-    bool _isMoving;
     bool _isMidpointArrived;
 
     void Awake()
@@ -54,31 +55,55 @@ public class Character: MonoBehaviour
             return;
         }
         _rigidbody = GetComponent<Rigidbody>();
-        _collider = GetComponent<BoxCollider>();
+        _collider = GetComponent<MeshCollider>();
     }
 
     void Start()
     {
-
+        Path = new Queue<Cell>();
         _rigidbody.position = new Vector3(0, 1.6f, 0);
     }
 
-    public void MoveTo(Cell targetCell)
+    public void HighlightPath()
     {
-        if (_isMoving) return;
+        foreach (Cell cell in Path)
+        {
+            cell.Highlight();
+        }
+    }
+
+    public void ResetPathColor()
+    {
+        foreach (Cell cell in Path)
+        {
+            cell.ColorReset();
+        }
+    }
+
+    public void StartMoving()
+    {
+        if (isMoving || Path.Count <= 0) return;
+        
+        isMoving = true;
+        JumpTo(Path.Peek());
+        CurrentCell = Path.Dequeue();
+    }
+    
+    void JumpTo(Cell targetCell)
+    {
         _targetCell = targetCell;
         _targetPos = WorldBoard.BoardToWorldPosition(targetCell.boardPos);
-        _targetPos.y += 1.5f;
+        // _targetPos.y += 0.1f;
         _midpoint = (_rigidbody.position + _targetPos) / 2;
         _midpoint.y += 2f;
-        _isMoving = true;
     }
 
     void Move()
     {
-        if (!_isMoving) return;
+        if (!isMoving) return;
 
         _rigidbody.useGravity = false;
+        _collider.isTrigger = true;
         Vector3 currentPos = _rigidbody.position;
         if (Vector3.Distance(_rigidbody.position, _midpoint) < 0.1f)
         {
@@ -100,21 +125,25 @@ public class Character: MonoBehaviour
         {
             _rigidbody.MovePosition(_targetPos);
             _targetCell.ColorReset();
-            _isMoving = false;
-            _isMidpointArrived = false;
-            _rigidbody.useGravity = true;
+            if (Path.Count > 0)
+            {
+                JumpTo(Path.Peek());
+                CurrentCell = Path.Dequeue();
+                _isMidpointArrived = false;
+            }
+            else
+            {
+                _isMidpointArrived = false;
+                _rigidbody.useGravity = true;
+                _collider.isTrigger = false;
+                isMoving = false;
+            }
+
         }
     }
 
     void FixedUpdate()
     {
-        if (!_isMoving && path.Count > 0)
-        {
-            MoveTo(path[0]);
-            CurrentCell = path[0];
-            path.RemoveAt(0);
-        }
-        
         Move();
     }
 }

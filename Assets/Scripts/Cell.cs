@@ -13,6 +13,8 @@ public abstract class Cell : MonoBehaviour
 
     const float _highlight = 1.5f;
 
+    Color _initialColor;
+
     MeshRenderer _renderer;
 
     public void Highlight()
@@ -22,23 +24,38 @@ public abstract class Cell : MonoBehaviour
     
     public void ColorReset()
     {
-        _renderer.material.color /= _highlight;
+        _renderer.material.color = _initialColor;
     }
     
     void Awake()
     {
         _renderer = GetComponent<MeshRenderer>();
+        _initialColor = _renderer.material.color;
     }
 
     void OnMouseUp()
     {
-        if (canPass)
+        if (canPass && !Character.Instance.isMoving)
         {
-            WorldBoard.Instance.FindPath(boardPos);
+            Character.Instance.StartMoving();
         }
-        else
+
+    }
+
+    void OnMouseEnter()
+    {
+        if (canPass && !Character.Instance.isMoving)
         {
-            Debug.Log("can't pass");
+            if(WorldBoard.Instance.FindPath(boardPos))
+                Character.Instance.HighlightPath();
+        }
+    }
+
+    void OnMouseExit()
+    {
+        if (!Character.Instance.isMoving)
+        {
+            Character.Instance.ResetPathColor();
         }
     }
 

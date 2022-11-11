@@ -73,14 +73,13 @@ public class WorldBoard : MonoBehaviour
         return (Mathf.Abs(dist.x) + Mathf.Abs(dist.y) + Mathf.Abs(dist.z)) / 2;
     }
 
-    public void FindPath(Vector3 targetPos)
+    public bool FindPath(Vector3 targetPos)
     {
         Cell currentCell = Character.Instance.CurrentCell;
         var directDistance = BoardDistance(targetPos, currentCell.boardPos);
-        if (directDistance > Character.Instance.maxDistance)
+        if (directDistance > 2 * Character.Instance.maxDistance)
         {
-            Debug.Log("too far");
-            return;
+            return false;
         }
         
         var open = new List<Point>();
@@ -93,7 +92,7 @@ public class WorldBoard : MonoBehaviour
             if (open.Count == 0)
             {
                 Debug.Log("can't find path");
-                return;
+                return false;
             }
             Point minPoint = open[0];
 
@@ -117,29 +116,38 @@ public class WorldBoard : MonoBehaviour
             {
                 for (var j = -1; j < 2; j++)
                 {
-                    if ( i == j || x + i < 0 || y + j < 0) continue;
+                    if ( i == j || x + i < 0 || y + j < 0 || 
+                         x + i >= _board.GetLength(0) || y + j >= _board.GetLength(1)) continue;
+                    
                     Cell nextCell = _board[x + i, y + j];
+                    var nextPoint = new Point(nextCell, minPoint);
 
                     if (nextCell.boardPos == targetPos)
                     {
-                        Character.Instance.path = new List<Cell> {nextCell};
-                        nextCell.Highlight();
+                        var maxCount = Character.Instance.maxDistance;
+                        var path = new Stack<Cell>();
+                        var reachablePath = new Queue<Cell>();
+                        path.Push(nextCell);
                         Point prePoint = minPoint;
                         while (prePoint.Parent != null)
                         {
-                            Character.Instance.path.Add(prePoint.Cell);
-                            prePoint.Cell.Highlight();
+                            path.Push(prePoint.Cell);
                             prePoint = prePoint.Parent;
                         }
 
-                        Character.Instance.path.Reverse();
+                        while (reachablePath.Count < maxCount && path.Count > 0)
+                        {
+                            reachablePath.Enqueue(path.Pop());
+                        }
 
-                        return;
+                        Character.Instance.Path = reachablePath;
+
+                        return true;
                     }
 
                     if (nextCell.canPass && !openCells.Contains(nextCell) && !closedCells.Contains(nextCell))
                     {
-                        open.Add(new Point(nextCell, minPoint));
+                        open.Add(nextPoint);
                     }
 
                 }
