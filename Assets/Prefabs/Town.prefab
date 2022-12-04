@@ -94,11 +94,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 2363631664870067670}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d1ddbc426d4973846b5ca7e39d85107d, type: 3}
+  m_Script: {fileID: 11500000, guid: 4d51634c94a5ba0419825bbdc54857b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   boardPos: {x: 0, y: 0, z: 0}
   canPass: 1
+  mapColor: {r: 1, g: 0, b: 0, a: 1}
+  events: {fileID: 11400000, guid: e47ed61f67a0ea446a0e902948f197be, type: 2}
 --- !u!64 &6397475907281780187
 MeshCollider:
   m_ObjectHideFlags: 0

@@ -76,7 +76,7 @@ public class Character: MonoBehaviour
     {
         foreach (Cell cell in Path)
         {
-            cell.ColorReset();
+            cell.ResetColor();
         }
     }
 
@@ -124,7 +124,7 @@ public class Character: MonoBehaviour
         else
         {
             _rigidbody.MovePosition(_targetPos);
-            _targetCell.ColorReset();
+            _targetCell.ResetColor();
             if (Path.Count > 0)
             {
                 JumpTo(Path.Peek());

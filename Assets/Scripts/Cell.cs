@@ -4,14 +4,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-public abstract class Cell : MonoBehaviour
+public class Cell : MonoBehaviour
 {
     public Vector3 boardPos;
 
     public bool canPass;
-    public abstract bool MapColor(Color color);
+    public Color mapColor;
 
-    const float _highlight = 1.5f;
+    public Events.CellEvents events;
+
+    float _highlight = 1.5f;
 
     Color _initialColor;
 
@@ -22,7 +24,7 @@ public abstract class Cell : MonoBehaviour
         _renderer.material.color *= _highlight;
     }
     
-    public void ColorReset()
+    public void ResetColor()
     {
         _renderer.material.color = _initialColor;
     }
@@ -59,8 +61,11 @@ public abstract class Cell : MonoBehaviour
         }
     }
 
-    void OnMouseOver()
+    void OnCollisionEnter(Collision collision)
     {
-        
+        if (collision.gameObject.CompareTag($"Player"))
+        {
+            events.Execute();
+        }
     }
 }

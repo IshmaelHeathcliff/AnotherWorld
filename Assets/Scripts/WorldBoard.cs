@@ -3,6 +3,7 @@ using System.Collections;
 using System.Linq;
 using Mono.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 
 public class WorldBoard : MonoBehaviour
@@ -36,26 +37,26 @@ public class WorldBoard : MonoBehaviour
 
     public class Point
     {
-        public Cell Cell;
-        public Point Parent;
+        public readonly Cell Cell;
+        public readonly Point Parent;
         
-        public float F => H + G;
-        public float H;
-        public float G;
+        public float F => _h + _g;
+        readonly float _h;
+        readonly float _g;
 
         public Point(Cell cell, Point parent, bool init=false)
         {
             Cell = cell;
             Parent = parent;
-            H = BoardDistance(Character.Instance.CurrentCell.boardPos, cell.boardPos);
+            _h = BoardDistance(Character.Instance.CurrentCell.boardPos, cell.boardPos);
             
             if (init)
             {
-                G = 0;
+                _g = 0;
             }
             else
             {
-                G = Parent.G + 1;
+                _g = Parent._g + 1;
             }
         }
     }
@@ -79,6 +80,7 @@ public class WorldBoard : MonoBehaviour
         var directDistance = BoardDistance(targetPos, currentCell.boardPos);
         if (directDistance > 2 * Character.Instance.maxDistance)
         {
+            Character.Instance.Path = new Queue<Cell>();
             return false;
         }
         
@@ -94,30 +96,29 @@ public class WorldBoard : MonoBehaviour
                 Debug.Log("can't find path");
                 return false;
             }
+            
             Point minPoint = open[0];
-
             foreach (Point point in open)
             {
                 if (point.F < minPoint.F)
                     minPoint = point;
             }
-
             open.Remove(minPoint);
             closed.Add(minPoint);
 
             Vector3 minPointPos = minPoint.Cell.boardPos;
-            var x = minPointPos.x.ConvertTo<int>();
-            var y = minPointPos.y.ConvertTo<int>();
-            var openCells = from point in open select point.Cell;
-            var closedCells = from point in closed select point.Cell;
-
-
+            var x = (int)minPointPos.x;
+            var y = (int)minPointPos.y;
+            var openCells = (from point in open select point.Cell).ToList();
+            var closedCells = (from point in closed select point.Cell).ToList();
+            
             for (var i = -1; i < 2; i++)
             {
                 for (var j = -1; j < 2; j++)
                 {
                     if ( i == j || x + i < 0 || y + j < 0 || 
                          x + i >= _board.GetLength(0) || y + j >= _board.GetLength(1)) continue;
+                    if (_board[x + i, y + j] == null) continue;
                     
                     Cell nextCell = _board[x + i, y + j];
                     var nextPoint = new Point(nextCell, minPoint);
@@ -156,23 +157,10 @@ public class WorldBoard : MonoBehaviour
 
     }
 
-
-    void Awake()
-    {
-        if (Instance != this)
-        {
-            DestroyImmediate(this);
-            return;
-        }
-        
-        _board = new Cell[boardShape.height, boardShape.width];
-    }
-    
-
-    void Start()
+    [ContextMenu("Create Board")]
+    void CreateBoard()
     {
         GameObject worldBoard = GameObject.Find("WorldBoard");
-
         for (var i = 0; i < boardShape.height; i++)
         {
             for (var j = 0; j < boardShape.width; j++)
@@ -182,17 +170,61 @@ public class WorldBoard : MonoBehaviour
                 {
                     var boardPos = new Vector3(i, j, 0-i-j);
                     var cell = cellPf.GetComponent<Cell>();
-                    if (cell.MapColor(color))
+                    if (cell.mapColor == color)
                     {
                         GameObject obj = Instantiate(cellPf, BoardToWorldPosition(boardPos), Quaternion.identity, worldBoard.transform);
-                        var newCell = obj.GetComponent<Cell>();
-                        newCell.boardPos = boardPos;
-                        _board[i, j] = newCell;
+                        obj.GetComponent<Cell>().boardPos = boardPos;
                     }
                 }
             }
         }
+    }
 
+    [ContextMenu("Clear Board")]
+    void ClearBoard()
+    {
+        GameObject worldBoard = GameObject.Find("WorldBoard");
+        var cells = worldBoard.GetComponentsInChildren<Cell>();
+        if (cells != null)
+        {
+            foreach (Cell cell in cells)
+            {
+                DestroyImmediate(cell.gameObject);
+            }
+        }
+    }
+
+    void InitBoard()
+    {
+        _board = new Cell[boardShape.height, boardShape.width];
+        GameObject worldBoard = GameObject.Find("WorldBoard");
+        var cells = worldBoard.GetComponentsInChildren<Cell>();
+        if (cells == null || cells.Length == 0)
+        {
+            CreateBoard();
+            cells = worldBoard.GetComponentsInChildren<Cell>();
+        }
+        
+        foreach (Cell cell in cells)
+        {
+            _board[(int)cell.boardPos.x, (int)cell.boardPos.y] = cell;
+        }
         Character.Instance.CurrentCell = _board[0, 0];
+        }
+
+
+    void Awake()
+    {
+        if (Instance != this)
+        {
+            DestroyImmediate(this);
+            return;
+        }
+    }
+    
+
+    void Start()
+    {
+        InitBoard();
     }
 }
