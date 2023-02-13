@@ -11,13 +11,15 @@ public class CameraMove : MonoBehaviour
 
     void Start()
     {
-        var characterPosition = Character.Instance.transform.position;
+        var characterPosition = Character.Character.Instance.transform.position;
         transform.position = characterPosition + new Vector3(0, 12, -10);
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (GameController.Instance.isPaused) return;
+        
         var horizon = Input.GetAxis("Horizontal");
         var vertical = Input.GetAxis("Vertical");
         transform.position += new Vector3(horizon, 0, vertical) * (moveSpeed * Time.deltaTime);

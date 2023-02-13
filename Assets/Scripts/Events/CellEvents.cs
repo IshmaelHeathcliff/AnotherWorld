@@ -12,7 +12,7 @@ namespace Events
 
         public void Execute()
         {
-            var id = Random.Range(0, Events.Count-1);
+            var id = Random.Range(0, Events.Count);
             Events[id].Execute();
         }
     }

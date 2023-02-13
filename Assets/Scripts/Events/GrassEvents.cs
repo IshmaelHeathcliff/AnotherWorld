@@ -10,4 +10,12 @@ namespace Events
             Debug.Log("grass arrived");
         }
     }
+    
+    public class GrassEvent1 : Event
+    {
+        public override void Execute()
+        {
+            Debug.Log("another grass arrived");
+        }
+    }
 }

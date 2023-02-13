@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.Serialization;
 
 public class Cell : MonoBehaviour
@@ -37,27 +38,42 @@ public class Cell : MonoBehaviour
 
     void OnMouseUp()
     {
-        if (canPass && !Character.Instance.isMoving)
+        if (EventSystem.current.IsPointerOverGameObject())
         {
-            Character.Instance.StartMoving();
+            return;
+        }
+        
+        if (canPass && !Character.Character.Instance.isMoving)
+        {
+            Character.Character.Instance.StartMoving();
         }
 
     }
 
     void OnMouseEnter()
     {
-        if (canPass && !Character.Instance.isMoving)
+        if (EventSystem.current.IsPointerOverGameObject())
+        {
+            return;
+        }
+        
+        if (canPass && !Character.Character.Instance.isMoving)
         {
             if(WorldBoard.Instance.FindPath(boardPos))
-                Character.Instance.HighlightPath();
+                Character.Character.Instance.HighlightPath();
         }
     }
 
     void OnMouseExit()
     {
-        if (!Character.Instance.isMoving)
+        if (EventSystem.current.IsPointerOverGameObject())
         {
-            Character.Instance.ResetPathColor();
+            return;
+        }
+        
+        if (!Character.Character.Instance.isMoving)
+        {
+            Character.Character.Instance.ResetPathColor();
         }
     }
 

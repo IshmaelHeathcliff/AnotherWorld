@@ -48,7 +48,7 @@ public class WorldBoard : MonoBehaviour
         {
             Cell = cell;
             Parent = parent;
-            _h = BoardDistance(Character.Instance.CurrentCell.boardPos, cell.boardPos);
+            _h = BoardDistance(Character.Character.Instance.CurrentCell.boardPos, cell.boardPos);
             
             if (init)
             {
@@ -76,11 +76,11 @@ public class WorldBoard : MonoBehaviour
 
     public bool FindPath(Vector3 targetPos)
     {
-        Cell currentCell = Character.Instance.CurrentCell;
+        Cell currentCell = Character.Character.Instance.CurrentCell;
         var directDistance = BoardDistance(targetPos, currentCell.boardPos);
-        if (directDistance > 2 * Character.Instance.maxDistance)
+        if (directDistance > 2 * Character.Character.Instance.maxDistance)
         {
-            Character.Instance.Path = new Queue<Cell>();
+            Character.Character.Instance.Path = new Queue<Cell>();
             return false;
         }
         
@@ -125,7 +125,7 @@ public class WorldBoard : MonoBehaviour
 
                     if (nextCell.boardPos == targetPos)
                     {
-                        var maxCount = Character.Instance.maxDistance;
+                        var maxCount = Character.Character.Instance.maxDistance;
                         var path = new Stack<Cell>();
                         var reachablePath = new Queue<Cell>();
                         path.Push(nextCell);
@@ -141,7 +141,7 @@ public class WorldBoard : MonoBehaviour
                             reachablePath.Enqueue(path.Pop());
                         }
 
-                        Character.Instance.Path = reachablePath;
+                        Character.Character.Instance.Path = reachablePath;
 
                         return true;
                     }
@@ -209,7 +209,7 @@ public class WorldBoard : MonoBehaviour
         {
             _board[(int)cell.boardPos.x, (int)cell.boardPos.y] = cell;
         }
-        Character.Instance.CurrentCell = _board[0, 0];
+        Character.Character.Instance.CurrentCell = _board[0, 0];
         }
 
 
