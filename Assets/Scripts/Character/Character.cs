@@ -20,7 +20,7 @@ namespace Character
                 {
                     _instance = FindObjectOfType<Character>();
                 }
-            
+
                 return _instance;
             }
             private set => _instance = value;
@@ -35,7 +35,7 @@ namespace Character
 
         public Queue<Cell> Path;
 
-        public bool isMoving;
+        [HideInInspector] public bool isMoving;
 
         Rigidbody _rigidbody;
         MeshCollider _collider;

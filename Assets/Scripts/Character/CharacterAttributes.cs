@@ -23,12 +23,6 @@ namespace Character
                     _instance = FindObjectOfType<CharacterAttributes>();
                 }
 
-                if (_instance == null)
-                {
-                    var obj = new GameObject("CharacterAttributes");
-                    _instance = obj.AddComponent<CharacterAttributes>();
-                }
-
                 return _instance;
             }
             private set => _instance = value;
@@ -39,23 +33,8 @@ namespace Character
         public GameObject mainAttributes;
         public GameObject nutritionAttributes;
 
-        readonly List<string> _mainAttributeNames = new()
-        {
-            "Strength",
-            "Dexterity",
-            "Intelligence",
-            "Sociability"
-        };
-
-        readonly List<string> _nutritionAttributeNames = new()
-        {
-            "Water",
-            "Sugar",
-            "Protein",
-            "Vegetable"
-        };
-
-        List<Slider> _sliders = new();
+        List<Slider> _mainSliders;
+        List<Slider> _nutritionSliders;
 
         void Awake()
         {
@@ -68,18 +47,18 @@ namespace Character
 
         void Start()
         {
-            var mainSliders = mainAttributes.GetComponentsInChildren<Slider>();
-            var nutritionSliders = nutritionAttributes.GetComponentsInChildren<Slider>();
-            // var attributeNames = _mainAttributeNames.Concat(_nutritionAttributeNames).ToList();
-
-            _sliders = mainSliders.Concat(nutritionSliders).ToList();
+            _mainSliders = mainAttributes.GetComponentsInChildren<Slider>().ToList();
+            _nutritionSliders = nutritionAttributes.GetComponentsInChildren<Slider>().ToList();
             
-            UpdateAttributeUI();
+            UpdateMainAttributeUI();
+            UpdateNutritionAttributeUI();
         }
 
         [ContextMenu("Update Attribute UI")]
         void UpdateAttributeUI()
         {
+            _mainSliders = mainAttributes.GetComponentsInChildren<Slider>().ToList();
+            _nutritionSliders = nutritionAttributes.GetComponentsInChildren<Slider>().ToList();
             UpdateMainAttributeUI();
             UpdateNutritionAttributeUI();
         }
@@ -88,7 +67,7 @@ namespace Character
         {
             foreach (var a in attributes.maxMain)
             {
-                foreach (Slider slider in _sliders.Where(slider => slider.name == a.Key))
+                foreach (Slider slider in _mainSliders.Where(slider => slider.name == a.Key))
                 {
                     slider.maxValue = a.Value;
                 }
@@ -96,7 +75,7 @@ namespace Character
             
             foreach (var a in attributes.main)
             {
-                foreach (Slider slider in _sliders.Where(slider => slider.name == a.Key))
+                foreach (Slider slider in _mainSliders.Where(slider => slider.name == a.Key))
                 {
                     slider.value = a.Value;
                 }
@@ -109,7 +88,7 @@ namespace Character
 
             foreach (var a in attributes.nutrition)
             {
-                foreach (Slider slider in _sliders.Where(slider => slider.name == a.Key))
+                foreach (Slider slider in _nutritionSliders.Where(slider => slider.name == a.Key))
                 {
                     slider.transform.SetAsFirstSibling();
                     slider.maxValue = attributes.maxNutrition;
@@ -118,7 +97,5 @@ namespace Character
                 }
             }
         }
-
-        
     }
 }

@@ -111,7 +111,7 @@ MonoBehaviour:
       Data: Strength
     - Name: $v
       Entry: 4
-      Data: 10
+      Data: 30
     - Name: 
       Entry: 8
       Data: 
@@ -123,7 +123,7 @@ MonoBehaviour:
       Data: Dexterity
     - Name: $v
       Entry: 4
-      Data: 15
+      Data: 30
     - Name: 
       Entry: 8
       Data: 
@@ -135,7 +135,7 @@ MonoBehaviour:
       Data: Intelligence
     - Name: $v
       Entry: 4
-      Data: 15
+      Data: 30
     - Name: 
       Entry: 8
       Data: 
@@ -147,7 +147,7 @@ MonoBehaviour:
       Data: Sociability
     - Name: $v
       Entry: 4
-      Data: 10
+      Data: 30
     - Name: 
       Entry: 8
       Data: 
@@ -203,7 +203,7 @@ MonoBehaviour:
       Data: Protein
     - Name: $v
       Entry: 4
-      Data: 10
+      Data: 20
     - Name: 
       Entry: 8
       Data: 
