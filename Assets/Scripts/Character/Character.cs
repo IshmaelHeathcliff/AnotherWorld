@@ -53,7 +53,7 @@ namespace Character
                 return;
             }
             _rigidbody = GetComponent<Rigidbody>();
-            _collider = GetComponent<MeshCollider>();
+            _collider = GetComponentInChildren<MeshCollider>();
         }
 
         void Start()

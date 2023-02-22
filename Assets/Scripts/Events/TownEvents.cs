@@ -6,7 +6,7 @@ namespace Events
     {
         public override void Execute()
         {
-            Debug.Log("town arrived");
+            // Debug.Log("town arrived");
         }
     }
 }

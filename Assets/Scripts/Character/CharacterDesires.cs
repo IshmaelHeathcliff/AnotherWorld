@@ -50,10 +50,6 @@ namespace Character
             UpdateDesireUI();
         }
 
-        void UpdateUI()
-        {
-        }
-        
         [ContextMenu("Update Desire UI")]
         void UpdateDesireUI()
         {
@@ -73,6 +69,8 @@ namespace Character
                 tf.sizeDelta *= desire.intensity / 100 + 0.5f;
                 img.color = desire.color;
             }
+            
+            SortDesireUI();
         }
 
         // [ContextMenu("Clear Desire UI")]

@@ -7,7 +7,7 @@ namespace Events
     {
         public override void Execute()
         {
-            Debug.Log("grass arrived");
+            // Debug.Log("grass arrived");
         }
     }
     
@@ -15,7 +15,7 @@ namespace Events
     {
         public override void Execute()
         {
-            Debug.Log("another grass arrived");
+            // Debug.Log("another grass arrived");
         }
     }
 }
