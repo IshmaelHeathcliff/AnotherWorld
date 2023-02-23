@@ -67,27 +67,25 @@ Shader "Sprite/Character"
             ENDCG
         }
 
-        Pass
+                Pass
         {
             Tags {"LightMode"="ShadowCaster"}
             Cull Off
 
-            CGPROGRAM
-            #pragma vertex vert
-            #pragma fragment frag
-            #pragma multi_compile_shadowcaster
-
+            HLSLPROGRAM
+			#pragma vertex vert
+			#pragma fragment frag
+            #pragma multi_compile _ _MAIN_LIGHT_SHADOWS
+			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
             #include "UnityCG.cginc"
-            #include "Lighting.cginc"
-            #include "AutoLight.cginc"
 
             sampler2D _MainTex;
-            fixed _AlphaCutOff;
+            float _AlphaCutOff;
 
             struct v2f { 
                 V2F_SHADOW_CASTER;
                 float4 texcoord : TEXCOORD1;
-                fixed4 color : COLOR;
+                float4 color : COLOR;
             };
 
             v2f vert(appdata_full v)
@@ -111,7 +109,7 @@ Shader "Sprite/Character"
                 clip(col.a - _AlphaCutOff);
                 SHADOW_CASTER_FRAGMENT(i)
             }
-            ENDCG
+            ENDHLSL
         }
         
         
