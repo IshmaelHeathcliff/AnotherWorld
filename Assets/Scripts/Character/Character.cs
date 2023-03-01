@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Board;
 using UnityEngine;
 
 namespace Character
@@ -30,6 +31,8 @@ namespace Character
 
         public int maxDistance = 8;
 
+        public Vector2Int initialPosition = Vector2Int.zero;
+        
         public Cell CurrentCell { get; set; }
     
 
@@ -59,7 +62,9 @@ namespace Character
         void Start()
         {
             Path = new Queue<Cell>();
-            _rigidbody.position = new Vector3(0, 1.6f, 0);
+            var initialBoardPosition = new Vector3(initialPosition.x, initialPosition.y, -initialPosition.x - initialPosition.y);
+            Vector3 initialWorldPosition = WorldBoard.BoardToWorldPosition(initialBoardPosition);
+            _rigidbody.position = new Vector3(initialWorldPosition.x, transform.position.y, initialWorldPosition.z);
         }
 
         public void HighlightPath()
