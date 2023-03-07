@@ -6,12 +6,12 @@
       "source": "builtin",
       "dependencies": {}
     },
-    "com.unity.addressables.cn": {
-      "version": "1.19.16",
+    "com.unity.addressables": {
+      "version": "1.21.8",
       "depth": 0,
       "source": "registry",
       "dependencies": {
-        "com.unity.scriptablebuildpipeline": "1.19.5",
+        "com.unity.scriptablebuildpipeline": "1.21.3",
         "com.unity.modules.assetbundle": "1.0.0",
         "com.unity.modules.imageconversion": "1.0.0",
         "com.unity.modules.jsonserialize": "1.0.0",
@@ -38,13 +38,6 @@
       },
       "url": "https://packages.unity.cn"
     },
-    "com.unity.collab-proxy": {
-      "version": "2.0.0",
-      "depth": 0,
-      "source": "registry",
-      "dependencies": {},
-      "url": "https://packages.unity.cn"
-    },
     "com.unity.ext.nunit": {
       "version": "1.0.6",
       "depth": 1,
@@ -59,22 +52,6 @@
       "dependencies": {
         "com.unity.ext.nunit": "1.0.6"
       },
-      "url": "https://packages.unity.cn"
-    },
-    "com.unity.ide.visualstudio": {
-      "version": "2.0.17",
-      "depth": 0,
-      "source": "registry",
-      "dependencies": {
-        "com.unity.test-framework": "1.1.9"
-      },
-      "url": "https://packages.unity.cn"
-    },
-    "com.unity.ide.vscode": {
-      "version": "1.2.5",
-      "depth": 0,
-      "source": "registry",
-      "dependencies": {},
       "url": "https://packages.unity.cn"
     },
     "com.unity.mathematics": {
@@ -107,7 +84,7 @@
       }
     },
     "com.unity.scriptablebuildpipeline": {
-      "version": "1.21.1",
+      "version": "1.21.3",
       "depth": 1,
       "source": "registry",
       "dependencies": {},
@@ -150,7 +127,7 @@
       "url": "https://packages.unity.cn"
     },
     "com.unity.timeline": {
-      "version": "1.7.2",
+      "version": "1.7.3",
       "depth": 0,
       "source": "registry",
       "dependencies": {
@@ -169,16 +146,6 @@
         "com.unity.modules.ui": "1.0.0",
         "com.unity.modules.imgui": "1.0.0"
       }
-    },
-    "com.unity.visualscripting": {
-      "version": "1.8.0",
-      "depth": 0,
-      "source": "registry",
-      "dependencies": {
-        "com.unity.ugui": "1.0.0",
-        "com.unity.modules.jsonserialize": "1.0.0"
-      },
-      "url": "https://packages.unity.cn"
     },
     "com.unity.modules.ai": {
       "version": "1.0.0",

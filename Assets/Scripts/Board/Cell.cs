@@ -8,6 +8,8 @@ namespace Board
         public Vector3 boardPos;
 
         public bool canPass;
+
+        public CellType celType;
         // public Color mapColor;
 
         public Events.CellEvents events;

@@ -1,8 +1,12 @@
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Serialization;
+using Random = UnityEngine.Random;
 
 namespace Board
 {
@@ -29,12 +33,10 @@ namespace Board
             private set => _instance = value;
         }
     
-        public Dictionary<string, GameObject[]> cellPfs = new();
-    
         const float Dist = 1.8f;
         public Texture2D boardShape;
 
-        public CellType cellType;
+        public CellTypeSO cellTypeColor;
 
         Cell[,] _board;
 
@@ -96,6 +98,7 @@ namespace Board
             {
                 if (open.Count == 0)
                 {
+                    Character.Character.Instance.Path = new Queue<Cell>();
                     Debug.Log("can't find path");
                     return false;
                 }
@@ -160,32 +163,37 @@ namespace Board
 
         }
 
+        [ContextMenu("Test")]
+        void Test()
+        {
+        }
+
         [ContextMenu("Create Board")]
         void CreateBoard()
         {
             ClearBoard();
-        
+            
             GameObject worldBoard = GameObject.Find("WorldBoard");
             for (var i = 0; i < boardShape.height; i++)
             {
                 for (var j = 0; j < boardShape.width; j++)
                 {
-                    Color color = boardShape.GetPixel(j, i);
-                    foreach (var pair in cellPfs)
+                    Color color = boardShape.GetPixel(i, j);
+                    var boardPos = new Vector3(i, j, 0-i-j);
+                    GameObject cell = CellFactory.Instance.CreatCell(cellTypeColor.cellColor[color]);
+                        
+                    if (cell is null)
                     {
-                        var boardPos = new Vector3(i, j, 0-i-j);
-                        if (cellType.cellColor[pair.Key] == color)
-                        {
-                            GameObject cellPf = pair.Value[Random.Range(0, pair.Value.Length)];
-                            GameObject obj = Instantiate(cellPf, BoardToWorldPosition(boardPos), Quaternion.identity, worldBoard.transform);
-                            obj.GetComponent<Cell>().boardPos = boardPos;
-                        }
+                        continue;
                     }
+                        
+                    GameObject obj = Instantiate(cell, BoardToWorldPosition(boardPos), Quaternion.identity, worldBoard.transform);
+                    obj.GetComponent<Cell>().boardPos = boardPos;
                 }
             }
         }
 
-        // [ContextMenu("Clear Board")]
+        [ContextMenu("Clear Board")]
         void ClearBoard()
         {
             GameObject worldBoard = GameObject.Find("WorldBoard");
@@ -199,20 +207,26 @@ namespace Board
             }
         }
 
-        void InitBoard()
+        IEnumerator InitBoard()
         {
             _board = new Cell[boardShape.height, boardShape.width];
             GameObject worldBoard = GameObject.Find("WorldBoard");
             var cells = worldBoard.GetComponentsInChildren<Cell>();
+
             if (cells == null || cells.Length == 0)
             {
+                while (!CellFactory.Instance.IsAssetsLoaded)
+                {
+                    yield return null;
+                }
+                
                 CreateBoard();
                 cells = worldBoard.GetComponentsInChildren<Cell>();
             }
-        
+            
             foreach (Cell cell in cells)
             {
-                _board[(int)cell.boardPos.x, (int)cell.boardPos.y] = cell;
+                _board[(int) cell.boardPos.x, (int) cell.boardPos.y] = cell;
             }
 
             var character = Character.Character.Instance;
@@ -233,7 +247,7 @@ namespace Board
 
         void Start()
         {
-            InitBoard();
+            StartCoroutine(InitBoard());
         }
     }
 }

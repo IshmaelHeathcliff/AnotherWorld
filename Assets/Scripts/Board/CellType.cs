@@ -4,9 +4,18 @@ using UnityEngine;
 
 namespace Board
 {
-    [CreateAssetMenu(fileName = "CellType", menuName = "Board/new CellType", order = 0)]
-    public class CellType : SerializedScriptableObject
+    public enum CellType
     {
-        public Dictionary<string, Color> cellColor;
+        Grass,
+        Forest,
+        Town,
+        Water,
+        Empty,
+    }
+    
+    [CreateAssetMenu(fileName = "CellType", menuName = "Board/new CellType", order = 0)]
+    public class CellTypeSO : SerializedScriptableObject
+    {
+        public Dictionary<Color, CellType> cellColor;
     }
 }

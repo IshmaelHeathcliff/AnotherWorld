@@ -1,0 +1,96 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Default Local Group
+  m_EditorClassIdentifier: 
+  m_GroupName: Default Local Group
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 6e133a7eb874d074f9b2cfc62991d876
+  m_SerializeEntries:
+  - m_GUID: 8ec6e20f0785e7743829ba2de46cda3d
+    m_Address: Assets/Prefabs/Forest 1.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - cell
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 043940f74f2944b48a941f9962c52e8b
+    m_Address: Assets/Prefabs/Forest 2.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - cell
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1b00dc029d0695a49a424dd2e52fdc0e
+    m_Address: Assets/Prefabs/Grass 1.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - cell
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c3e1eee79a2f7424cb0e5d21a22d00b5
+    m_Address: Assets/Prefabs/Grass 2.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - cell
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: dee9187d8796e024d9cc2df4d185dacc
+    m_Address: Assets/Prefabs/Grass 3.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - cell
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 853975949b44e3442b6230ca78d2e838
+    m_Address: Assets/Prefabs/Grass 4.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - cell
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 530a322912da4dc45989f781c14285f1
+    m_Address: Assets/Prefabs/Grass 5.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - cell
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 82d5b6c184c12874a99a3d05f9c5f688
+    m_Address: Assets/Prefabs/Grass 6.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - cell
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8e8d8031db69a2d4c8f9a67afa0850ec
+    m_Address: Assets/Prefabs/Town.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - cell
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d02a98d2b940ca0419399b7d52e288cb
+    m_Address: Assets/Prefabs/Water.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - cell
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6640c4e65c07de948a4f70c41ef036ae
+    m_Address: Assets/SO/CellType.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c1a6313287bfab245b3e6b9b29f576ab
+    m_Address: Assets/Prefabs/Cell/Empty.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - cell
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: efc78eefb7eacf249af26ec90eb486d6, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: ffdb0b902d5732043a379a2dcdfb9a6f, type: 2}
+    - {fileID: 11400000, guid: e92d1254d52f76045be0a98e8c73f8ff, type: 2}
