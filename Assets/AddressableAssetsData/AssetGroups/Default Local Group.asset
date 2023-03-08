@@ -88,6 +88,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - cell
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 59e660a3c84581348b6e8df7175a8ac0
+    m_Address: Assets/Materials/Water.mat
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - cell
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: efc78eefb7eacf249af26ec90eb486d6, type: 2}
   m_SchemaSet:

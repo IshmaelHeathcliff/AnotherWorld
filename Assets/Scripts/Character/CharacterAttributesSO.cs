@@ -7,11 +7,10 @@ namespace Character
     [CreateAssetMenu(fileName = "newAttributes", menuName = "Character/New Attributes")]
     public class CharacterAttributesSO : SerializedScriptableObject
     {
-        public Dictionary<string, float> main;
-        public Dictionary<string, float> maxMain;
+        public Dictionary<CharacterAttributesSystem.CharacterAttributes, float> main;
+        public Dictionary<CharacterAttributesSystem.CharacterAttributes, float> maxMain;
         
-        public Dictionary<string, float> nutrition;
+        public Dictionary<CharacterAttributesSystem.CharacterNutrition, float> nutrition;
         public float maxNutrition;
-
     }
 }

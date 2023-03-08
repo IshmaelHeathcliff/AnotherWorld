@@ -23,12 +23,18 @@ MonoBehaviour:
     SerializationNodes:
     - Name: main
       Entry: 7
-      Data: 0|System.Collections.Generic.Dictionary`2[[System.String, mscorlib],[System.Single,
-        mscorlib]], mscorlib
+      Data: 0|System.Collections.Generic.Dictionary`2[[Character.CharacterAttributesSystem+CharacterAttributes,
+        Assembly-CSharp],[System.Single, mscorlib]], mscorlib
     - Name: comparer
       Entry: 7
-      Data: 1|System.Collections.Generic.GenericEqualityComparer`1[[System.String,
-        mscorlib]], mscorlib
+      Data: 1|System.Collections.Generic.EnumEqualityComparer`1[[Character.CharacterAttributesSystem+CharacterAttributes,
+        Assembly-CSharp]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
     - Name: 
       Entry: 8
       Data: 
@@ -39,20 +45,8 @@ MonoBehaviour:
       Entry: 7
       Data: 
     - Name: $k
-      Entry: 1
-      Data: Strength
-    - Name: $v
-      Entry: 4
-      Data: 5
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 
-    - Name: $k
-      Entry: 1
-      Data: Dexterity
+      Entry: 3
+      Data: 0
     - Name: $v
       Entry: 4
       Data: 10
@@ -63,11 +57,11 @@ MonoBehaviour:
       Entry: 7
       Data: 
     - Name: $k
-      Entry: 1
-      Data: Intelligence
+      Entry: 3
+      Data: 1
     - Name: $v
       Entry: 4
-      Data: 15
+      Data: 30
     - Name: 
       Entry: 8
       Data: 
@@ -75,8 +69,20 @@ MonoBehaviour:
       Entry: 7
       Data: 
     - Name: $k
-      Entry: 1
-      Data: Sociability
+      Entry: 3
+      Data: 2
+    - Name: $v
+      Entry: 4
+      Data: 20
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 3
     - Name: $v
       Entry: 4
       Data: 5
@@ -91,15 +97,11 @@ MonoBehaviour:
       Data: 
     - Name: maxMain
       Entry: 7
-      Data: 2|System.Collections.Generic.Dictionary`2[[System.String, mscorlib],[System.Single,
-        mscorlib]], mscorlib
+      Data: 2|System.Collections.Generic.Dictionary`2[[Character.CharacterAttributesSystem+CharacterAttributes,
+        Assembly-CSharp],[System.Single, mscorlib]], mscorlib
     - Name: comparer
-      Entry: 7
-      Data: 3|System.Collections.Generic.GenericEqualityComparer`1[[System.String,
-        mscorlib]], mscorlib
-    - Name: 
-      Entry: 8
-      Data: 
+      Entry: 9
+      Data: 1
     - Name: 
       Entry: 12
       Data: 4
@@ -107,11 +109,11 @@ MonoBehaviour:
       Entry: 7
       Data: 
     - Name: $k
-      Entry: 1
-      Data: Strength
+      Entry: 3
+      Data: 0
     - Name: $v
       Entry: 4
-      Data: 30
+      Data: 20
     - Name: 
       Entry: 8
       Data: 
@@ -119,11 +121,11 @@ MonoBehaviour:
       Entry: 7
       Data: 
     - Name: $k
-      Entry: 1
-      Data: Dexterity
+      Entry: 3
+      Data: 1
     - Name: $v
       Entry: 4
-      Data: 30
+      Data: 40
     - Name: 
       Entry: 8
       Data: 
@@ -131,11 +133,11 @@ MonoBehaviour:
       Entry: 7
       Data: 
     - Name: $k
-      Entry: 1
-      Data: Intelligence
+      Entry: 3
+      Data: 2
     - Name: $v
       Entry: 4
-      Data: 30
+      Data: 50
     - Name: 
       Entry: 8
       Data: 
@@ -143,11 +145,11 @@ MonoBehaviour:
       Entry: 7
       Data: 
     - Name: $k
-      Entry: 1
-      Data: Sociability
+      Entry: 3
+      Data: 3
     - Name: $v
       Entry: 4
-      Data: 30
+      Data: 10
     - Name: 
       Entry: 8
       Data: 
@@ -159,12 +161,18 @@ MonoBehaviour:
       Data: 
     - Name: nutrition
       Entry: 7
-      Data: 4|System.Collections.Generic.Dictionary`2[[System.String, mscorlib],[System.Single,
-        mscorlib]], mscorlib
+      Data: 3|System.Collections.Generic.Dictionary`2[[Character.CharacterAttributesSystem+CharacterNutrition,
+        Assembly-CSharp],[System.Single, mscorlib]], mscorlib
     - Name: comparer
       Entry: 7
-      Data: 5|System.Collections.Generic.GenericEqualityComparer`1[[System.String,
-        mscorlib]], mscorlib
+      Data: 4|System.Collections.Generic.EnumEqualityComparer`1[[Character.CharacterAttributesSystem+CharacterNutrition,
+        Assembly-CSharp]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
     - Name: 
       Entry: 8
       Data: 
@@ -175,11 +183,11 @@ MonoBehaviour:
       Entry: 7
       Data: 
     - Name: $k
-      Entry: 1
-      Data: Sugar
+      Entry: 3
+      Data: 0
     - Name: $v
       Entry: 4
-      Data: 15
+      Data: 17.6
     - Name: 
       Entry: 8
       Data: 
@@ -187,11 +195,11 @@ MonoBehaviour:
       Entry: 7
       Data: 
     - Name: $k
-      Entry: 1
-      Data: Water
+      Entry: 3
+      Data: 1
     - Name: $v
       Entry: 4
-      Data: 20
+      Data: 27
     - Name: 
       Entry: 8
       Data: 
@@ -199,11 +207,11 @@ MonoBehaviour:
       Entry: 7
       Data: 
     - Name: $k
-      Entry: 1
-      Data: Protein
+      Entry: 3
+      Data: 2
     - Name: $v
       Entry: 4
-      Data: 20
+      Data: 56.6
     - Name: 
       Entry: 8
       Data: 
@@ -211,11 +219,11 @@ MonoBehaviour:
       Entry: 7
       Data: 
     - Name: $k
-      Entry: 1
-      Data: Vegetable
+      Entry: 3
+      Data: 3
     - Name: $v
       Entry: 4
-      Data: 30
+      Data: 23
     - Name: 
       Entry: 8
       Data: 

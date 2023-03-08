@@ -8,11 +8,18 @@ public class CameraMove : MonoBehaviour
 {
     public float moveSpeed = 50f;
     public float liftSpeed = 1000f;
+    public Vector3 distanceToCharacter = new Vector3(0, 12, -8);
 
-    void Start()
+    [ContextMenu("Move to Character")]
+    void MoveToCharacter()
     {
         var characterPosition = Character.Character.Instance.transform.position;
-        transform.position = characterPosition + new Vector3(0, 12, -10);
+        transform.position = characterPosition + distanceToCharacter;
+    }
+    
+    void Start()
+    {
+        MoveToCharacter();
     }
 
     // Update is called once per frame

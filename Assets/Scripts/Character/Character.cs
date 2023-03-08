@@ -32,6 +32,7 @@ namespace Character
         public int maxDistance = 8;
 
         public Vector2Int initialPosition = Vector2Int.zero;
+        public float height = 0.24f;
         
         public Cell CurrentCell { get; set; }
     
@@ -143,6 +144,14 @@ namespace Character
                 }
 
             }
+        }
+
+        [ContextMenu("Move to initial position")]
+        void MoveToInitialPosition()
+        {
+            transform.position = WorldBoard.BoardToWorldPosition(new Vector3(
+                initialPosition.x, initialPosition.y, -initialPosition.x-initialPosition.y))
+                                 + new Vector3(0, height, 0);
         }
 
         void FixedUpdate()
