@@ -1,7 +1,10 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using static UnityEngine.Mathf;
+using Random = UnityEngine.Random;
 
 namespace Character
 {
@@ -58,7 +61,7 @@ namespace Character
             var count = 0;
             foreach (Desire desire in desiresSO.desires)
             {
-                var obj = Instantiate(desirePrefab, desiresUI.transform);
+                GameObject obj = Instantiate(desirePrefab, desiresUI.transform);
                 
                 obj.name = $"Desire ({count})";
                 count += 1;
@@ -67,7 +70,9 @@ namespace Character
                 var img = obj.GetComponent<Image>();
                 
                 tf.sizeDelta *= desire.intensity / 100 + 0.5f;
-                img.color = desire.color;
+                Color color = desire.color;
+                color.a = desire.leftTime / 5f;
+                img.color = color;
             }
             
             SortDesireUI();
@@ -86,24 +91,25 @@ namespace Character
         [ContextMenu("Sort Desire UI")]
         void SortDesireUI()
         {
-            var desires = new List<RectTransform>();
             Transform uiTransform = desiresUI.transform;
-            
+            var desires = new List<RectTransform>();
+
             for (var i = 0; i < uiTransform.childCount; i++)
             {
                 desires.Add(uiTransform.GetChild(i).GetComponent<RectTransform>());
             }
             
-            var desirePositions = new Queue<int[]>();
+            // 三元数组，前两位为两个desire在desires中的index，最后一位为左右两个空位的标识，0为右，1为左
+            var desirePositions = new List<int[]>();
             
             desires[0].localPosition = new Vector3(0, 0);
             var r = (desires[0].sizeDelta.x + desires[1].sizeDelta.x) / 2;
             var t = Random.Range(0, 2*PI);
+            
             desires[1].localPosition = desires[0].localPosition + new Vector3(r * Cos(t), r * Sin(t));
             
-            // 0为右，1为左
-            desirePositions.Enqueue(new []{0, 1, 0});
-            desirePositions.Enqueue(new []{0, 1, 1});
+            desirePositions.Add(new []{0, 1, 0});
+            desirePositions.Add(new []{0, 1, 1});
 
             for (var i = 2; i < desires.Count; i++)
             {
@@ -111,18 +117,44 @@ namespace Character
 
                 var posPair = new int[] {};
                 var localPos = new Vector3();
+                var usedPositions = new List<int[]>();
 
                 while (!confirmed)
                 {
-                    posPair = desirePositions.Dequeue();
-                    localPos = CalcDesirePos(desires[posPair[0]], desires[posPair[1]], desires[i].sizeDelta.x/2)[posPair[2]];
+                    if (desirePositions.Count == 0)
+                    {
+                        throw new NotImplementedException();
+                    }
+                    
+                    var ind = Random.Range(0, desirePositions.Count);
+                    posPair = desirePositions[ind];
+                    desirePositions.RemoveAt(ind);
+
+                    var r3 = desires[i].sizeDelta.x / 2;
+                    var localPositions = CalcDesirePos(desires[posPair[0]], desires[posPair[1]], r3);
+
+                    if (localPositions != null)
+                    {
+                        localPos = localPositions[posPair[2]];
+                    }
+                    else
+                    {
+                        throw new NotImplementedException();
+                    }
+
+                    if (localPos.magnitude + r3 > desiresUI.GetComponent<RectTransform>().sizeDelta.x / 2)
+                    {
+                        usedPositions.Add(posPair);
+                        continue;
+                    }
+                    
                     for (var j = 0; j < i; j++)
                     {
                         RectTransform rt = desires[j];
                         if (Vector3.Distance(rt.localPosition, localPos) 
                             < (rt.sizeDelta.x + desires[i].sizeDelta.x) / 2 - 0.5f)
                         {
-                            desirePositions.Enqueue(posPair);
+                            usedPositions.Add(posPair);
                             confirmed = false;
                             break;
                         }
@@ -131,21 +163,22 @@ namespace Character
                     }
                 }
 
+                desirePositions.AddRange(usedPositions);
                 desires[i].localPosition = localPos;
                 RectTransform rt1 = desires[posPair[0]];
                 RectTransform rt2 = desires[posPair[1]];
 
-                desirePositions.Enqueue(IsRightOfLine(rt1.localPosition, localPos, rt2.localPosition)
+                desirePositions.Add(IsRightOfLine(rt1.localPosition, localPos, rt2.localPosition)
                     ? new[] {i, posPair[1], 1}
                     : new[] {i, posPair[1], 0});
 
-                desirePositions.Enqueue(IsRightOfLine(rt2.localPosition, localPos, rt1.localPosition)
+                desirePositions.Add(IsRightOfLine(rt2.localPosition, localPos, rt1.localPosition)
                     ? new[] {i, posPair[0], 1}
                     : new[] {i, posPair[0], 0});
             }
         }
 
-        Vector3[] CalcDesirePos(RectTransform desireA, RectTransform desireB, float r3)
+        static Vector3[] CalcDesirePos(RectTransform desireA, RectTransform desireB, float r3)
         {
             var a = desireA.localPosition.x;
             var b = desireA.localPosition.y;
@@ -195,10 +228,9 @@ namespace Character
                 return new[] {pos1, pos2};
             }
         }
-
         
         // True在右，False在左
-        bool IsRightOfLine(Vector3 point, Vector3 linePoint1, Vector3 linePoint2)
+        static bool IsRightOfLine(Vector3 point, Vector3 linePoint1, Vector3 linePoint2)
         {
             var a = point.x;
             var b = point.y;
