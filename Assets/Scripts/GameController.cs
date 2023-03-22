@@ -1,4 +1,6 @@
 using UnityEngine;
+using System.Collections;
+using Board;
 
 public class GameController : MonoBehaviour
 {
@@ -31,6 +33,8 @@ public class GameController : MonoBehaviour
 
     public bool isPaused;
 
+    [SerializeField] GameObject loadingUI;
+
     void Awake()
     {
         if (Instance != this)
@@ -42,7 +46,18 @@ public class GameController : MonoBehaviour
 
     void Start()
     {
-        // Pause();
+        loadingUI.SetActive(true);
+        Application.targetFrameRate = 100;
+        StartCoroutine(StartGame());
+    }
+
+    IEnumerator StartGame()
+    {
+        Pause();
+        yield return StartCoroutine(WorldBoard.Instance.InitBoard());
+        Character.Character.Instance.InitCharacter();
+        loadingUI.SetActive(false);
+        Continue();
     }
     
     public void Pause()

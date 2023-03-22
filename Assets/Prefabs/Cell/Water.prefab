@@ -101,6 +101,7 @@ MonoBehaviour:
   canPass: 0
   celType: 3
   events: {fileID: 0}
+  weight: 100
 --- !u!64 &8817877105863703443
 MeshCollider:
   m_ObjectHideFlags: 0

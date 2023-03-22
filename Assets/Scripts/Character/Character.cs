@@ -63,11 +63,15 @@ namespace Character
         void Start()
         {
             Path = new Queue<Cell>();
-            var initialBoardPosition = new Vector3(initialPosition.x, initialPosition.y, -initialPosition.x - initialPosition.y);
-            Vector3 initialWorldPosition = WorldBoard.BoardToWorldPosition(initialBoardPosition);
-            _rigidbody.position = new Vector3(initialWorldPosition.x, transform.position.y, initialWorldPosition.z);
+            _rigidbody.useGravity = false;
         }
 
+        public void InitCharacter()
+        {
+            MoveToInitialPosition();
+            _rigidbody.useGravity = true;
+        }
+        
         public void HighlightPath()
         {
             foreach (Cell cell in Path)
@@ -80,7 +84,7 @@ namespace Character
         {
             foreach (Cell cell in Path)
             {
-                cell.ResetColor();
+                cell.Reset();
             }
         }
 
@@ -128,7 +132,7 @@ namespace Character
             else
             {
                 _rigidbody.MovePosition(_targetPos);
-                _targetCell.ResetColor();
+                _targetCell.Reset();
                 if (Path.Count > 0)
                 {
                     JumpTo(Path.Peek());
@@ -149,7 +153,7 @@ namespace Character
         [ContextMenu("Move to initial position")]
         void MoveToInitialPosition()
         {
-            transform.position = WorldBoard.BoardToWorldPosition(new Vector3(
+            transform.position = WorldBoard.BoardToWorldPosition(new Vector3Int(
                 initialPosition.x, initialPosition.y, -initialPosition.x-initialPosition.y))
                                  + new Vector3(0, height, 0);
         }

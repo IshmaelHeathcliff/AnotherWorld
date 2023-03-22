@@ -101,6 +101,7 @@ MonoBehaviour:
   canPass: 1
   celType: 2
   events: {fileID: 11400000, guid: e47ed61f67a0ea446a0e902948f197be, type: 2}
+  weight: 100
 --- !u!64 &6397475907281780187
 MeshCollider:
   m_ObjectHideFlags: 0

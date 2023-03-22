@@ -94,6 +94,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - cell
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b4108a4ae474b83468e45516c3c88b25
+    m_Address: Assets/Prefabs/Cell/Grass.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - cell
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: efc78eefb7eacf249af26ec90eb486d6, type: 2}
   m_SchemaSet:

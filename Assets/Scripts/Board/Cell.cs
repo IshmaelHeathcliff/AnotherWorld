@@ -5,7 +5,7 @@ namespace Board
 {
     public class Cell : MonoBehaviour
     {
-        public Vector3 boardPos;
+        public Vector3Int boardPos;
 
         public bool canPass;
 
@@ -14,7 +14,12 @@ namespace Board
 
         public Events.CellEvents events;
 
+        [Range(0, 100)]
+        public float weight;
+
         float _highlight = 1.5f;
+
+        bool _confirmed;
 
         Color _initialColor;
 
@@ -25,9 +30,10 @@ namespace Board
             _renderer.material.color *= _highlight;
         }
     
-        public void ResetColor()
+        public void Reset()
         {
             _renderer.material.color = _initialColor;
+            _confirmed = false;
         }
     
         void Awake()
@@ -42,38 +48,26 @@ namespace Board
             {
                 return;
             }
-        
-            if (canPass && !Character.Character.Instance.isMoving)
-            {
-                Character.Character.Instance.StartMoving();
-            }
 
-        }
-
-        void OnMouseEnter()
-        {
-            if (EventSystem.current.IsPointerOverGameObject())
+            if(canPass && !Character.Character.Instance.isMoving)
             {
-                return;
-            }
-        
-            if (canPass && !Character.Character.Instance.isMoving)
-            {
-                if(WorldBoard.Instance.FindPath(boardPos))
-                    Character.Character.Instance.HighlightPath();
-            }
-        }
-
-        void OnMouseExit()
-        {
-            if (EventSystem.current.IsPointerOverGameObject())
-            {
-                return;
-            }
-        
-            if (!Character.Character.Instance.isMoving)
-            {
-                Character.Character.Instance.ResetPathColor();
+                switch (_confirmed)
+                {
+                    case false:
+                    {
+                        Character.Character.Instance.ResetPathColor();
+                        if (WorldBoard.Instance.FindPath(boardPos))
+                        {
+                            Character.Character.Instance.HighlightPath();
+                            _confirmed = true;
+                        }
+                        break;
+                    }
+                    case true:
+                        Character.Character.Instance.StartMoving();
+                        _confirmed = false;
+                        break;
+                }
             }
         }
 

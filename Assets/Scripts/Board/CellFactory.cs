@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -36,7 +37,9 @@ namespace Board
 
         public bool IsAssetsLoaded { get; private set; }
         public string key = "cell";
-        public Dictionary<CellType, List<GameObject>> cells;
+        [SerializeField] Dictionary<CellType, List<GameObject>> _cellPrefs;
+        Dictionary<CellType, List<Cell>> _cells;
+        
         
         AsyncOperationHandle<IList<GameObject>> _handle;
 
@@ -47,7 +50,8 @@ namespace Board
             
             foreach (CellType value in Enum.GetValues(typeof(CellType)))
             {
-                cells.Add(value, new List<GameObject>());
+                _cellPrefs.Add(value, new List<GameObject>());
+                _cells.Add(value, new List<Cell>());
             }
             StartCoroutine(LoadAssets());
         }
@@ -55,7 +59,8 @@ namespace Board
         [ContextMenu("Release Assets")]
         public void Release()
         {
-            cells = new Dictionary<CellType, List<GameObject>>();
+            _cellPrefs = new Dictionary<CellType, List<GameObject>>();
+            _cells = new Dictionary<CellType, List<Cell>>();
 
             if(_handle.IsValid())
                 Addressables.Release(_handle);
@@ -68,7 +73,9 @@ namespace Board
             _handle = Addressables.LoadAssetsAsync<GameObject>(key,
                 ad =>
                 {
-                    cells[ad.GetComponent<Cell>().celType].Add(ad);
+                    var cell = ad.GetComponent<Cell>();
+                    _cellPrefs[cell.celType].Add(ad);
+                    _cells[cell.celType].Add(cell);
                 });
 
             while(!_handle.IsDone)
@@ -80,8 +87,18 @@ namespace Board
 
         public GameObject CreatCell(CellType cellType)
         {
-            var cells = this.cells[cellType];
-            return cells[Random.Range(0, cells.Count)];
+            var cellPrefs = _cellPrefs[cellType];
+            var cells = _cells[cellType];
+            var weights = (from cell in cells select cell.weight).ToList();
+            var rd = Random.Range(0, weights.Sum());
+            for (var i = 0; i < weights.Count; i++)
+            {
+                if (rd < weights[i])
+                    return cellPrefs[i];
+                rd -= weights[i];
+            }
+            return cellPrefs.Last();
+
         }
         
         

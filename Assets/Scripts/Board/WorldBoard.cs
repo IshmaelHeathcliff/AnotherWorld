@@ -1,12 +1,8 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using Sirenix.OdinInspector;
 using UnityEngine;
-using UnityEngine.Serialization;
-using Random = UnityEngine.Random;
 
 namespace Board
 {
@@ -32,13 +28,15 @@ namespace Board
             }
             private set => _instance = value;
         }
-    
+
         const float Dist = 1.8f;
+        const float UpdateTime = 5f;
+
         public Texture2D boardShape;
 
         public CellTypeSO cellTypeColor;
 
-        Cell[,] _board;
+        Board _board;
 
         public class Point
         {
@@ -66,14 +64,47 @@ namespace Board
             }
         }
 
-        public static Vector3 BoardToWorldPosition(Vector3 boardPos)
+        public class Board
+        {
+            Cell[,] _board;
+            public int Width;
+            public int Height;
+
+            public Board(int width, int height)
+            {
+                Width = width;
+                Height = height;
+                _board = new Cell[width, height];
+            }
+
+            public bool CheckIndex(int x, int y)
+            {
+                var h = x + Height / 2;
+                var w = y + Width / 2;
+                
+                if (h < 0 || h >= Height || w < 0 || w >= Width)
+                {
+                    return false;
+                }
+
+                return this[x, y] != null;
+            }
+
+            public Cell this[int x, int y]
+            {
+                get => _board[x + Height / 2, y + Width / 2];
+                set => _board[x + Height / 2, y + Width / 2] = value;
+            }
+        }
+
+        public static Vector3 BoardToWorldPosition(Vector3Int boardPos)
         {
             var xDirection = new Vector3(boardPos.x * Dist, 0, 0);
             var zDirection = new Vector3(boardPos.y * Dist / 2, 0, boardPos.y * Dist * Mathf.Sqrt(3) / 2);
             return xDirection + zDirection;
         }
-
-        public static float BoardDistance(Vector3 posA, Vector3 posB)
+        
+        static float BoardDistance(Vector3 posA, Vector3 posB)
         {
             Vector3 dist = posA - posB;
             return (Mathf.Abs(dist.x) + Mathf.Abs(dist.y) + Mathf.Abs(dist.z)) / 2;
@@ -99,15 +130,14 @@ namespace Board
                 if (open.Count == 0)
                 {
                     Character.Character.Instance.Path = new Queue<Cell>();
-                    Debug.Log("can't find path");
+                    // Debug.Log("can't find path");
                     return false;
                 }
             
                 Point minPoint = open[0];
-                foreach (Point point in open)
+                foreach (Point point in open.Where(point => point.F < minPoint.F))
                 {
-                    if (point.F < minPoint.F)
-                        minPoint = point;
+                    minPoint = point;
                 }
                 open.Remove(minPoint);
                 closed.Add(minPoint);
@@ -122,9 +152,7 @@ namespace Board
                 {
                     for (var j = -1; j < 2; j++)
                     {
-                        if ( i == j || x + i < 0 || y + j < 0 || 
-                             x + i >= _board.GetLength(0) || y + j >= _board.GetLength(1)) continue;
-                        if (_board[x + i, y + j] == null) continue;
+                        if ( i == j || !_board.CheckIndex(x + i, y + j)) continue;
                     
                         Cell nextCell = _board[x + i, y + j];
                         var nextPoint = new Point(nextCell, minPoint);
@@ -151,6 +179,12 @@ namespace Board
 
                             return true;
                         }
+                        
+                        if (BoardDistance(nextCell.boardPos, currentCell.boardPos) >
+                            2 * Character.Character.Instance.maxDistance)
+                        {
+                            continue;
+                        }
 
                         if (nextCell.canPass && !openCells.Contains(nextCell) && !closedCells.Contains(nextCell))
                         {
@@ -169,17 +203,26 @@ namespace Board
         }
 
         [ContextMenu("Create Board")]
-        void CreateBoard()
+        void CreateBoardInEditor()
+        {
+            StartCoroutine(CreateBoard());
+        }
+        
+        IEnumerator CreateBoard()
         {
             ClearBoard();
+            var height = boardShape.height;
+            var width = boardShape.width;
             
             GameObject worldBoard = GameObject.Find("WorldBoard");
-            for (var i = 0; i < boardShape.height; i++)
+            for (var i = 0; i < height; i++)
             {
-                for (var j = 0; j < boardShape.width; j++)
+                for (var j = 0; j < width; j++)
                 {
+                    var x = i - height / 2;
+                    var y = j - width / 2;
                     Color color = boardShape.GetPixel(i, j);
-                    var boardPos = new Vector3(i, j, 0-i-j);
+                    var boardPos = new Vector3Int(x, y, -x-y);
                     GameObject cell = CellFactory.Instance.CreatCell(cellTypeColor.cellColor[color]);
                         
                     if (cell is null)
@@ -190,6 +233,9 @@ namespace Board
                     GameObject obj = Instantiate(cell, BoardToWorldPosition(boardPos), Quaternion.identity, worldBoard.transform);
                     obj.GetComponent<Cell>().boardPos = boardPos;
                 }
+                
+                if( i % (int)(height * Time.deltaTime / UpdateTime + 1) == 0)
+                    yield return null;
             }
         }
 
@@ -207,9 +253,11 @@ namespace Board
             }
         }
 
-        IEnumerator InitBoard()
+        public IEnumerator InitBoard()
         {
-            _board = new Cell[boardShape.height, boardShape.width];
+            var height = boardShape.height;
+            var width = boardShape.width;
+            _board = new Board(width, height);
             GameObject worldBoard = GameObject.Find("WorldBoard");
             var cells = worldBoard.GetComponentsInChildren<Cell>();
 
@@ -220,18 +268,19 @@ namespace Board
                     yield return null;
                 }
                 
-                CreateBoard();
+                yield return StartCoroutine(CreateBoard());
                 cells = worldBoard.GetComponentsInChildren<Cell>();
             }
             
             foreach (Cell cell in cells)
             {
-                _board[(int) cell.boardPos.x, (int) cell.boardPos.y] = cell;
+                _board[cell.boardPos.x, cell.boardPos.y] = cell;
             }
 
             var character = Character.Character.Instance;
-            Vector2Int characterInitialPosition = character.initialPosition;
+            var characterInitialPosition = (Vector3Int)character.initialPosition;
             character.CurrentCell = _board[characterInitialPosition.x, characterInitialPosition.y];
+            character.InitCharacter();
         }
 
 
@@ -242,12 +291,6 @@ namespace Board
                 DestroyImmediate(this);
                 return;
             }
-        }
-    
-
-        void Start()
-        {
-            StartCoroutine(InitBoard());
         }
     }
 }
