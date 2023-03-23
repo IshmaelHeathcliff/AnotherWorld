@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 namespace Items
 {
-    [CreateAssetMenu(fileName = "newItem", menuName = "Items/New Item")]
+    [CreateAssetMenu(fileName = "newItem", menuName = "ScriptObjects/Items/New Item")]
     public class ItemSO : SerializedScriptableObject
     {
         public string itemName;

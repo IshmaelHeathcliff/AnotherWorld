@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Character
 {
-    [CreateAssetMenu(fileName = "newDesires", menuName = "new Desires", order = 0)]
+    [CreateAssetMenu(fileName = "newDesires", menuName = "ScriptObjects/Character/New Desires")]
     public class CharacterDesiresSO : SerializedScriptableObject
     {
         public readonly List<Desire> desires;

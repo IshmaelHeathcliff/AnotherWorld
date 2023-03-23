@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using Board;
+using TMPro;
 
 public class GameController : MonoBehaviour
 {
@@ -32,8 +33,11 @@ public class GameController : MonoBehaviour
     }
 
     public bool isPaused;
+    [SerializeField] string loadingText = "Loading...";
+    [SerializeField] string loadedText = "空格键开始";
 
-    [SerializeField] GameObject loadingUI;
+    [SerializeField] GameObject loadTextUI;
+    TextMeshProUGUI _loadText;
 
     void Awake()
     {
@@ -42,11 +46,14 @@ public class GameController : MonoBehaviour
             DestroyImmediate(this);
             return;
         }
+
+        _loadText = loadTextUI.GetComponentInChildren<TextMeshProUGUI>();
     }
 
     void Start()
     {
-        loadingUI.SetActive(true);
+        UIController.Instance.OpenUI("Load");
+        _loadText.text = loadingText;
         Application.targetFrameRate = 100;
         StartCoroutine(StartGame());
     }
@@ -56,7 +63,7 @@ public class GameController : MonoBehaviour
         Pause();
         yield return StartCoroutine(WorldBoard.Instance.InitBoard());
         Character.Character.Instance.InitCharacter();
-        loadingUI.SetActive(false);
+        _loadText.text = loadedText;
         Continue();
     }
     

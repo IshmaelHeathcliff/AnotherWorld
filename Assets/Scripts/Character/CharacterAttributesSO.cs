@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Character
 {
-    [CreateAssetMenu(fileName = "newAttributes", menuName = "Character/New Attributes")]
+    [CreateAssetMenu(fileName = "newAttributes", menuName = "ScriptObjects/Character/New Attributes")]
     public class CharacterAttributesSO : SerializedScriptableObject
     {
         public Dictionary<CharacterAttributesSystem.CharacterAttributes, float> main;

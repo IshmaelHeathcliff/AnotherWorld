@@ -1,0 +1,30 @@
+fileFormatVersion: 2
+guid: 2fe893503288de8448f2a6d885610785
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontNames:
+  - Sarasa UI SC
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 7d30b78acd3ab9b45a2f6d3b519ef90c, type: 3}
+  - {fileID: 12800000, guid: 2e5f01db32d893c4ea2b508c6d23fa93, type: 3}
+  - {fileID: 12800000, guid: 364b1360075b7d54387be94a15b5b719, type: 3}
+  - {fileID: 12800000, guid: c08458bd4b15fa444b521870e6dea39b, type: 3}
+  - {fileID: 12800000, guid: 6ab6ce302daf50a458fb1ad9a6d04350, type: 3}
+  - {fileID: 12800000, guid: cda82e710eada764fa65dc11c6fe64fd, type: 3}
+  - {fileID: 12800000, guid: bc832afdaa6407447aa6d67200f29dbb, type: 3}
+  - {fileID: 12800000, guid: 9eca36dc9603278418211a3586ea0661, type: 3}
+  - {fileID: 12800000, guid: 2f748aea979f33042993696f4838f918, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

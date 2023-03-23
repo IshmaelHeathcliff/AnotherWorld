@@ -13,7 +13,7 @@ namespace Board
         Empty,
     }
     
-    [CreateAssetMenu(fileName = "CellType", menuName = "Board/new CellType", order = 0)]
+    [CreateAssetMenu(fileName = "CellType", menuName = "ScriptObjects/Board/New CellType", order = 0)]
     public class CellTypeSO : SerializedScriptableObject
     {
         public Dictionary<Color, CellType> cellColor;

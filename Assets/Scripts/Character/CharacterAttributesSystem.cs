@@ -74,6 +74,8 @@ namespace Character
             UpdateMainAttributeUI();
             UpdateNutritionAttributeUI();
         }
+        
+        
 
         [ContextMenu("Update Attribute UI")]
         void UpdateAttributeUI()

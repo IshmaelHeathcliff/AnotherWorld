@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Events
 {
-    [CreateAssetMenu(fileName = "newEvents", menuName = "Events/New Events")]
+    [CreateAssetMenu(fileName = "newEvents", menuName = "ScriptObjects/Events/New Events")]
     public class CellEvents : SerializedScriptableObject
     {
         [OdinSerialize] public List<Event> Events;

@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Items
 {
-    [CreateAssetMenu(fileName = "newPackage", menuName = "Items/New Package")]
+    [CreateAssetMenu(fileName = "newPackage", menuName = "ScriptObjects/Items/New Package")]
     public class PackageSO : SerializedScriptableObject
     {
         public Vector2Int size;
