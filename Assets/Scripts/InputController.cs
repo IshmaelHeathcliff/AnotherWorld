@@ -19,7 +19,7 @@ public class InputController : MonoBehaviour
 
             if (_instance == null)
             {
-                _instance = FindObjectOfType<InputController>();
+                _instance = FindFirstObjectByType<InputController>();
             }
 
             return _instance;

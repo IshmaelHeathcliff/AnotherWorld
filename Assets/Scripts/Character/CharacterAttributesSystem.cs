@@ -24,7 +24,7 @@ namespace Character
 
                 if (_instance == null)
                 {
-                    _instance = FindObjectOfType<CharacterAttributesSystem>();
+                    _instance = FindFirstObjectByType<CharacterAttributesSystem>();
                 }
 
                 return _instance;

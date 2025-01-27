@@ -19,7 +19,7 @@ namespace Items
             
                 if (_instance == null)
                 {
-                    _instance = FindObjectOfType<InventoryController>();
+                    _instance = FindFirstObjectByType<InventoryController>();
                 }
             
                 return _instance;

@@ -19,7 +19,7 @@ public class UIController : SerializedMonoBehaviour
 
             if (_instance == null)
             {
-                _instance = FindObjectOfType<UIController>();
+                _instance = FindFirstObjectByType<UIController>();
             }
 
             return _instance;
@@ -36,11 +36,12 @@ public class UIController : SerializedMonoBehaviour
             DestroyImmediate(this);
             return;
         }
+
+        InitUI();
     }
 
     void Start()
     {
-        InitUI();
         InputController.Instance.PlayerInput.UI.Inventory.performed += SwitchInventoryUI;
         InputController.Instance.PlayerInput.UI.Character.performed += SwitchCharacterUI;
         InputController.Instance.PlayerInput.UI.Load.performed += CloseLoad;

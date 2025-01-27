@@ -27,7 +27,7 @@ namespace Board
             
                 if (_instance == null)
                 {
-                    _instance = FindObjectOfType<CellFactory>();
+                    _instance = FindFirstObjectByType<CellFactory>();
                 }
             
                 return _instance;

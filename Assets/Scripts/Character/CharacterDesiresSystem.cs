@@ -22,7 +22,7 @@ namespace Character
 
                 if (_instance == null)
                 {
-                    _instance = FindObjectOfType<CharacterDesiresSystem>();
+                    _instance = FindFirstObjectByType<CharacterDesiresSystem>();
                 }
 
                 return _instance;

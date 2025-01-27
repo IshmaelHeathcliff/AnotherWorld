@@ -21,7 +21,7 @@ namespace Board
             
                 if (_instance == null)
                 {
-                    _instance = FindObjectOfType<WorldBoard>();
+                    _instance = FindFirstObjectByType<WorldBoard>();
                 }
             
                 return _instance;

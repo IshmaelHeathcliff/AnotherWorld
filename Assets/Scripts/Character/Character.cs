@@ -19,7 +19,7 @@ namespace Character
             
                 if (_instance == null)
                 {
-                    _instance = FindObjectOfType<Character>();
+                    _instance = FindFirstObjectByType<Character>();
                 }
 
                 return _instance;
